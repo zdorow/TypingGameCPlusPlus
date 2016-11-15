@@ -25,9 +25,10 @@ using namespace std;
 
 //Function Prototypes
 void showMenu();
-void showAge(int, double);
+void showAge(int, int);
 void makeColor(int, int);
 void makeFunDisplay();
+int practice(int, int);
 
 int main()
 
@@ -37,7 +38,7 @@ int main()
 	//defined constants
 	int times, more, age;
 	const int MIN = 5;
-	double twice = 1.5;
+	const int twice = 2;
 
 	//user input name
 	string name;
@@ -48,7 +49,19 @@ int main()
 	cout << "Greetings " << name << "! Welcome to Zach's typing tutor!\n";
 	Sleep(2500);
 	system("CLS");
-	//fun colored welcome display
+	//user input age
+	cout << "How old are you? ";
+	cin >> age;
+	showAge(age, twice);
+	Sleep(3000);
+	system("CLS");
+	cout << "How many times have you practiced typing? ";
+	cin >> times;
+	more = practice(times, twice);
+	cout << "When you practice " << more << " more times, you will be glad you put in the effort!\n";
+	Sleep(3000);
+	system("CLS");
+	//fun colored welcome display call
 	makeFunDisplay();
 	system("COLOR 3F");
 	//Menu for game
@@ -196,7 +209,7 @@ void showMenu()
 	cout << "D:Quit.\n";
 }
 //Age Function
-void showAge(int age, double twice)
+void showAge(int age, int twice)
 {
 	cout << "When you are " << (age * twice) << ", you will be glad you learned to type!\n";
 }
@@ -227,4 +240,9 @@ void makeColor(int letter, int  number) {
 		system(color_str.c_str());
 	cout << "Welcome to Zach's awesome typing tutor!!\n";
 
+}
+// Two parmaters returning one value function
+int practice(int times, int twice) 
+{
+	return times * twice;
 }
