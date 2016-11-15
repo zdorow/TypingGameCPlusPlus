@@ -26,6 +26,8 @@ using namespace std;
 //Function Prototypes
 void showMenu();
 void showAge(int, double);
+void makeColor(int, int);
+void makeFunDisplay();
 
 int main()
 
@@ -46,77 +48,11 @@ int main()
 	cout << "Greetings " << name << "! Welcome to Zach's typing tutor!\n";
 	Sleep(2500);
 	system("CLS");
-	//user input age
-	cout << "How old are you? ";
-	cin >> age;
-	showAge(age, twice);
-	Sleep(3000);
-	system("CLS");
-	//user input practice amount
-	cout << "How many times have you practiced typing? ";
-	cin >> times;
-	times = times < MIN ? MIN : times;
-	more = times * twice;
-	cout << "When you practice " << more << " more times, you will be glad you put in the effort!\n";
-	Sleep(3000);
-	system("CLS");
 	//fun colored welcome display
-	system("COLOR 3A");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 2B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1A");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 2A");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 2B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1A");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 2A");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 2B");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
-	system("COLOR 1A");
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-	Sleep(100);
-	system("CLS");
+	makeFunDisplay();
 	system("COLOR 3F");
 	//Menu for game
 	char menuchoice;
-	bool menu = true;
 	do {
 		//Menu Display
 		showMenu();
@@ -142,6 +78,12 @@ int main()
 			break;
 		case 'C':
 		case 'c':
+			system("CLS");
+			makeFunDisplay();
+			system("COLOR 3F");
+			break;
+		case 'D':
+		case 'd':
 			exit(0);
 			break;
 		default:
@@ -250,10 +192,39 @@ void showMenu()
 	cout << "What would you like to do?\n\n";
 	cout << "A:Play typing game!\n";
 	cout << "B:Display instructions.\n";
-	cout << "C:Quit.\n";
+	cout << "C:Repeat color display\n";
+	cout << "D:Quit.\n";
 }
 //Age Function
 void showAge(int age, double twice)
 {
 	cout << "When you are " << (age * twice) << ", you will be glad you learned to type!\n";
+}
+
+//Display funcitons
+void makeFunDisplay() 
+{
+	const int SLEEP_TIME = 100;
+
+	for (int hex = 'B'; hex <= 'E'; hex++) {
+
+		for (int num = '0'; num <= '9'; num++) {
+			makeColor(hex, num);
+			Sleep(SLEEP_TIME);
+		}
+	}
+}
+
+
+void makeColor(int letter, int  number) {
+
+	string color_str = "COLOR ";
+	color_str.push_back((char)letter);
+	color_str.push_back((char)number);
+
+	// Set "Color ##"
+	system("CLS");
+		system(color_str.c_str());
+	cout << "Welcome to Zach's awesome typing tutor!!\n";
+
 }
