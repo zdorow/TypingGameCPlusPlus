@@ -21,49 +21,50 @@
 #include <ctime>
 #include <fstream>
 #include <direct.h>
+#include <Wincon.h>
 using namespace std;
 
 //Function Prototypes
 void showMenu();
-void showAge(int, int);
+int showAge(int, int, int);
 void makeColor(int, int);
 void makeFunDisplay();
-int practice(int, int);
+int practice(int, int, int);
+void SleepNclear();
+void PauseNclear();
+void ClearInput();
+
+const int MINP = 5, MINA = 4;
+const int twice = 2;
+string name;
 
 int main()
-
-
 {
 	//intro to game
-	//defined constants
-	int times, more, age;
-	const int MIN = 5;
-	const int twice = 2;
-
+	int times, more, age, old;
 	//user input name
-	string name;
 	system("COLOR 3F");
 	cout << "Can you please tell me your name? ";
 	getline(cin, name);
 	system("CLS");
 	cout << "Greetings " << name << "! Welcome to Zach's typing tutor!\n";
-	Sleep(2500);
-	system("CLS");
+	SleepNclear();
 	//user input age
 	cout << "How old are you? ";
 	cin >> age;
-	showAge(age, twice);
-	Sleep(3000);
-	system("CLS");
+	old = showAge(age, MINA, twice);
+	cout << "When you are " << old << ", you will be glad you learned to type!\n";
+	ClearInput();
+	SleepNclear();
 	cout << "How many times have you practiced typing? ";
 	cin >> times;
-	more = practice(times, twice);
+	more = practice(times, MINP, twice);
 	cout << "When you practice " << more << " more times, you will be glad you put in the effort!\n";
-	Sleep(3000);
-	system("CLS");
+	SleepNclear();
 	//fun colored welcome display call
 	makeFunDisplay();
 	system("COLOR 3F");
+	ClearInput();
 	//Menu for game
 	char menuchoice;
 	do {
@@ -76,8 +77,8 @@ int main()
 		case 'a':
 			system("CLS");
 			cout << "READY PLAYER ONE!!\n";
-			system("PAUSE");
-			system("CLS");
+			ClearInput();
+			PauseNclear();
 			break;
 		case 'B':
 		case 'b':
@@ -86,8 +87,8 @@ int main()
 			cout << "You have 4 tries to get the correct answer.\n\n";
 			cout << "The score is the incorrect answers subtracted by the correct answers.\n\n";
 			cout << "The game lasts for ten rounds, but the score will contine to increase\nor decrease with each round.\n\n";
-			system("PAUSE");
-			system("CLS");
+			ClearInput();
+			PauseNclear();
 			break;
 		case 'C':
 		case 'c':
@@ -103,8 +104,8 @@ int main()
 			system("CLS");
 			cout << "Invalid choice\n";
 			cout << "Please enter \'A\', \'B\' or \'C\'...\n";
-			system("PAUSE");
-			system("CLS");
+			ClearInput();
+			PauseNclear();
 		}
 	} while (menuchoice != 'a' && menuchoice != 'A');
 	// Game start
@@ -113,17 +114,17 @@ int main()
 		int incorrect = 0;
 		int score;
 		srand(time(NULL));
+		//random letter generation and user guessing letter
 		while (true) {
 			for (int round = 10; round > 0; round--) {
 				int tries = 0;
 				char tri;
 				char c = 97 + rand() % 26;
 				while (true) {
-					//random letter generation and user input is above
 					cout << "Please type the correct letter:\n";
 					cout << c << "\n";
 					cin >> tri;
-					cin.ignore();
+					ClearInput();
 
 					if (tries >= 3) {
 						break;
@@ -134,8 +135,7 @@ int main()
 					}
 					else (tri != c); {
 						cout << "Try again! You can do it!\n";
-						Sleep(1500);
-						system("CLS");
+						SleepNclear();
 					}
 					tries++;
 					incorrect++;
@@ -149,10 +149,9 @@ int main()
 				else {
 					cout << "***Good Job!***\n";
 				}
-				Sleep(2000);
-				system("CLS");
+				SleepNclear();
 			}
-			//totals incorrect and correct
+			//totals incorrect and correct outputs to file
 			score = correct - incorrect;
 			cout << "Your score is: " << score << "!\n";
 			cout << "You got " << correct << " correct and " << incorrect << " incorrect.\n";;
@@ -172,8 +171,6 @@ int main()
 				// get user response.
 				cout << "Would you like to play again (Y/N)? ";
 				cin >> answer;
-				cin.ignore();
-
 				// check for proper response.
 				if (answer == 'n' || answer == 'N' || answer == 'y' || answer == 'Y') {
 					break;
@@ -185,18 +182,15 @@ int main()
 			// check user's input and run again or exit;
 			if (answer == 'n' || answer == 'N') {
 				cout << "Thank you for playing!!!!\n\n";
-				cout << "You can check the TypingGame folder on your C drive for a printable file of your score!\n";
+				cout << "You can check the TypingGame folder on your C drive for a printable file of your score!\n\n";
 				break;
 			}
 			else {
 				system("CLS");
 			}
 		}
-		cout << "\n\nPress Enter to exit. . . ";
-		cin.ignore();
-		return 0;
+		system("PAUSE");
 		exit(0);
-
 	}
 }
 //MAIN Menu
@@ -205,44 +199,53 @@ void showMenu()
 	cout << "What would you like to do?\n\n";
 	cout << "A:Play typing game!\n";
 	cout << "B:Display instructions.\n";
-	cout << "C:Repeat color display\n";
+	cout << "C:Repeat color display.\n";
 	cout << "D:Quit.\n";
 }
 //Age Function
-void showAge(int age, int twice)
+int showAge(int age, int MINA, int twice)
 {
-	cout << "When you are " << (age * twice) << ", you will be glad you learned to type!\n";
+	age = age < MINA ? MINA : age;
+	return age * twice;
 }
 
 //Display funcitons
-void makeFunDisplay() 
+void makeFunDisplay()
 {
 	const int SLEEP_TIME = 100;
-
-	for (int hex = 'B'; hex <= 'E'; hex++) {
-
-		for (int num = '0'; num <= '9'; num++) {
+	for (int hex = 'B'; hex <= 'F'; hex++) {
+		for (int num = '0'; num <= '3'; num++) {
 			makeColor(hex, num);
 			Sleep(SLEEP_TIME);
 		}
 	}
 }
-
-
-void makeColor(int letter, int  number) {
-
+void makeColor(int letter, int  number)
+{
 	string color_str = "COLOR ";
 	color_str.push_back((char)letter);
 	color_str.push_back((char)number);
 
 	// Set "Color ##"
 	system("CLS");
-		system(color_str.c_str());
+	system(color_str.c_str());
 	cout << "Welcome to Zach's awesome typing tutor!!\n";
-
 }
 // Two parmaters returning one value function
-int practice(int times, int twice) 
+int practice(int times, int MINP, int twice)
 {
+	times = times < MINP ? MINP : times;
 	return times * twice;
+}
+void SleepNclear() {
+	Sleep(2000);
+	system("CLS");
+}
+void PauseNclear() {
+	system("PAUSE");
+	system("CLS");
+}
+void ClearInput() {
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
 }
