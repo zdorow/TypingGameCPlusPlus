@@ -46,7 +46,7 @@ int main()
 //intro to game
 //defined constants
 	int times, more, age, old;
-	const int MINP = 5, MINA = 0;
+	const int MINP = 5, MINA = 4;
 	const int twice = 2;
 	
 //user input name
