@@ -31,11 +31,18 @@ void makeFunDisplay();
 int practice(int, int, int);
 void SleepNclear();
 void PauseNclear();
+void ClearInput();
 
 int main()
 
 
 {
+	HANDLE outcon = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_FONT_INFOEX font;
+	GetCurrentConsoleFontEx(outcon, false, &font);
+	font.dwFontSize.X = 7;
+	font.dwFontSize.Y = 14;
+	SetCurrentConsoleFontEx(outcon, false, &font);
 //intro to game
 //defined constants
 	int times, more, age, old;
@@ -55,6 +62,7 @@ int main()
 	cin >> age;
 	old = showAge(age, MINA, twice);
 	cout << "When you are " << old << ", you will be glad you learned to type!\n";
+	ClearInput();
 	SleepNclear();
 	cout << "How many times have you practiced typing? ";
 	cin >> times;
@@ -64,8 +72,7 @@ int main()
 	//fun colored welcome display call
 	makeFunDisplay();
 	system("COLOR 3F");
-	cin.clear();
-	cin.ignore(INT_MAX, '\n');
+	ClearInput();
 	//Menu for game
 	char menuchoice;
 	do {
@@ -78,6 +85,7 @@ int main()
 		case 'a':
 			system("CLS");
 			cout << "READY PLAYER ONE!!\n";
+			ClearInput();
 			PauseNclear();
 			break;
 		case 'B':
@@ -87,6 +95,7 @@ int main()
 			cout << "You have 4 tries to get the correct answer.\n\n";
 			cout << "The score is the incorrect answers subtracted by the correct answers.\n\n";
 			cout << "The game lasts for ten rounds, but the score will contine to increase\nor decrease with each round.\n\n";
+			ClearInput();
 			PauseNclear();
 			break;
 		case 'C':
@@ -103,8 +112,7 @@ int main()
 			system("CLS");
 			cout << "Invalid choice\n";
 			cout << "Please enter \'A\', \'B\' or \'C\'...\n";
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
+			ClearInput();
 			PauseNclear();
 		}
 	} while (menuchoice != 'a' && menuchoice != 'A');
@@ -124,7 +132,7 @@ int main()
 					cout << "Please type the correct letter:\n";
 					cout << c << "\n";
 					cin >> tri;
-					cin.ignore();
+					ClearInput();
 
 					if (tries >= 3) {
 						break;
@@ -195,63 +203,51 @@ int main()
 		cin.ignore();
 		return 0;
 		exit(0);
-
 	}
 }
 //MAIN Menu
 void showMenu()
-{
-	cout << "What would you like to do?\n\n";
+{	cout << "What would you like to do?\n\n";
 	cout << "A:Play typing game!\n";
 	cout << "B:Display instructions.\n";
-	cout << "C:Repeat color display\n";
-	cout << "D:Quit.\n";
-}
+	cout << "C:Repeat color display.\n";
+	cout << "D:Quit.\n";}
 //Age Function
 int showAge(int age, int MINA, int twice)
-{
-	age = age < MINA ? MINA : age;
-	return age * twice;
-}
+{	age = age < MINA ? MINA : age;
+	return age * twice;}
 
 //Display funcitons
 void makeFunDisplay()
-{
-	const int SLEEP_TIME = 100;
-
+{	const int SLEEP_TIME = 100;
 	for (int hex = 'B'; hex <= 'E'; hex++) {
-
 		for (int num = '0'; num <= '9'; num++) {
 			makeColor(hex, num);
-			Sleep(SLEEP_TIME);
-		}
+			Sleep(SLEEP_TIME);}
 	}
 }
 
 
-void makeColor(int letter, int  number) {
-
-	string color_str = "COLOR ";
+void makeColor(int letter, int  number) 
+{	string color_str = "COLOR ";
 	color_str.push_back((char)letter);
 	color_str.push_back((char)number);
 
 	// Set "Color ##"
 	system("CLS");
 	system(color_str.c_str());
-	cout << "Welcome to Zach's awesome typing tutor!!\n";
-
-}
+	cout << "Welcome to Zach's awesome typing tutor!!\n";}
 // Two parmaters returning one value function
 int practice(int times, int MINP, int twice)
-{
-	times = times < MINP ? MINP : times;
-	return times * twice;
-}
+{	times = times < MINP ? MINP : times;
+	return times * twice;}
 void SleepNclear() {
 	Sleep(2000);
-	system("CLS");
-}
+	system("CLS");}
 void PauseNclear() {
 	system("PAUSE");
-	system("CLS");
-}
+	system("CLS");}
+void ClearInput() {
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');}
+
